@@ -1,0 +1,34 @@
+services:
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  qserver:
+    build:
+      context: ./qserver
+      dockerfile: Dockerfile
+    ports:
+      - "60615:60615"
+      - "60625:60625"
+    environment:
+      - REDIS_ADDR=redis:6379
+    depends_on:
+      - redis
+  http-server:
+    build:
+      context: ./httpserver
+      dockerfile: Dockerfile
+    ports:
+      - "60610:60610"
+    environment:
+      - QSERVER_ZMQ_CONTROL_ADDRESS=tcp://qserver:60615
+      - QSERVER_ZMQ_INFO_ADDRESS=tcp://qserver:60625
+    depends_on:
+      - redis
+      - qserver

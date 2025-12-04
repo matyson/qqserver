@@ -1,0 +1,16 @@
+authentication:
+  providers:
+    - provider: ldap
+      authenticator: bluesky_httpserver.authenticators:DictionaryAuthenticator
+      args:
+        users_to_passwords:
+          matt: xqdl
+
+api_access:
+  policy: bluesky_httpserver.authorization:DictionaryAPIAccessControl
+  args:
+    users:
+      matt:
+        roles:
+          - admin
+          - expert

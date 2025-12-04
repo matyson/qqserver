@@ -1,0 +1,8 @@
+network:
+  zmq_control_addr: tcp://*:60615
+  # zmq_private_key: ${CUSTOM_EV_FOR_PRIVATE_KEY}
+  zmq_info_addr: tcp://*:60625
+  zmq_encoding: json
+  zmq_publish_console: true
+  redis_addr: ${REDIS_ADDR}
+  redis_name_prefix: qs_default
