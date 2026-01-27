@@ -1,0 +1,39 @@
+# Default user group permissions configuration.
+# ref: https://blueskyproject.io/bluesky-queueserver/features_and_config.html#configuring-user-group-permissions
+
+user_groups:
+  root: # The group includes all available plan and devices
+    allowed_plans:
+      - null # Allow all
+    forbidden_plans:
+      - ":^_" # All plans with names starting with '_'
+    allowed_devices:
+      - null # Allow all
+    forbidden_devices:
+      - ":^_:?.*" # All devices with names starting with '_' and their subdevices
+    allowed_functions:
+      - null # Allow all
+    forbidden_functions:
+      - ":^_" # All functions with names starting with '_'
+  primary: # The group includes beamline staff, includes all or most of the plans and devices
+    allowed_plans:
+      - ":.*" # Different way to allow all plans.
+    allowed_devices:
+      - ":?.*:depth=5" # Allow all device and subdevices. Maximum deepth for subdevices is 5.
+    allowed_functions:
+      - "function_sleep" # Explicitly listed name
+  test_user: # Some examples of patterns that could be used in lists
+    allowed_plans:
+      - ":^count" # Allow all plan names starting with 'count'
+      - ":scan$" # Allow all plan names ending with 'scan'
+      - ":product" # Allow all plans names containing the word 'product'
+    forbidden_plans:
+      - "adaptive_scan" # Do not allow the plan 'adaptive_scan'
+      - ":^inner_product" # Do not allow all plan names starting with 'inner_product'
+    allowed_devices:
+      - ":^det:?.*" # Allow all devices starting with 'det' and their subdevices
+      - ":^motor:?.*" # Allow allow all devices starting with 'motor' and their subdevices
+      - ":^sim_bundle_A:?.*" # Same for devices starting with 'sim_bundle_A'
+    forbidden_devices:
+      - ":^det[3-5]$:?.*" # Do not allow devices 'det3', 'det4' and 'det5' and all subdevices
+      - ":^motor\\d+$:?.*" # Same for all numbered motors, such as 'motor2' or 'motor256'

@@ -20,6 +20,8 @@ services:
       - REDIS_ADDR=redis:6379
     depends_on:
       - redis
+    volumes:
+      - startup_dir:/app/startup:rw
   http-server:
     build:
       context: ./httpserver
@@ -32,3 +34,13 @@ services:
     depends_on:
       - redis
       - qserver
+    volumes:
+      - startup_dir:/app/startup:rw
+
+volumes:
+  startup_dir:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/startup
+      o: bind

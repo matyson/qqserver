@@ -6,3 +6,8 @@ network:
   zmq_publish_console: true
   redis_addr: ${REDIS_ADDR}
   redis_name_prefix: qs_default
+startup:
+  # keep_re: true
+  startup_dir: /app/startup
+  existing_plans_and_devices_path: /app/startup
+  user_group_permissions_path: /app/startup
