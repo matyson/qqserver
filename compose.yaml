@@ -36,6 +36,18 @@ services:
       - qserver
     volumes:
       - startup_dir:/app/startup:rw
+  pvws:
+    build: 
+      context: ./pvws
+      args:
+          GIT_TAG: main
+          PORT_NUMBER: 9999
+    ports:
+      - 9999:9999
+    healthcheck:
+      test: curl -sS http://localhost:9999/pvws/ | grep -c "img/connected.png" > /dev/null
+      timeout: "5s"
+      retries: 10
 
 volumes:
   startup_dir:
